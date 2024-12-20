@@ -1,0 +1,98 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    /* Basic styling for the dashboard */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .user-info {
+      margin-top: 20px;
+    }
+
+    .btn-logout {
+      background-color: #d9534f;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn-logout:hover {
+      background-color: #c9302c;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Welcome to Your Dashboard</h1>
+
+    <!-- User Information -->
+    <div class="user-info">
+      <p><strong>Name:</strong> <span id="userName"></span></p>
+      <p><strong>Email:</strong> <span id="userEmail"></span></p>
+    </div>
+
+    <!-- Logout Button -->
+    <button class="btn-logout" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    // Check if user is logged in
+    window.onload = function() {
+      let loggedIn = localStorage.getItem("loggedIn");
+
+      // If not logged in, redirect to login page
+      if (!loggedIn) {
+        alert("You must log in first");
+        window.location.href = "login.html"; // Redirect to login page
+      } else {
+        // Retrieve user information from localStorage and display it
+        let usersArray = JSON.parse(localStorage.getItem("users"));
+        let loggedInUser = usersArray.find(user => user.userEmail === localStorage.getItem("currentUser"));
+
+        if (loggedInUser) {
+          document.getElementById("userName").textContent = loggedInUser.userName;
+          document.getElementById("userEmail").textContent = loggedInUser.userEmail;
+        }
+      }
+    };
+
+    // Logout function
+    function logout() {
+      // Remove logged-in state and current user from localStorage
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("currentUser");
+
+      // Redirect to login page
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

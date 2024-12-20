@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .login-link {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .login-link a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Create an Account</h2>
+    <form onsubmit="signupFunc(event)">
+      <input type="text" id="userName" placeholder="Full Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Sign Up</button>
+    </form>
+    <div class="login-link">
+      <p>Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Signup function
+    function signupFunc(event) {
+      event.preventDefault();
+
+      const userName = document.getElementById('userName').value;
+      const userEmail = document.getElementById('email').value;
+      const userPass = document.getElementById('password').value;
+
+      let usersArray = localStorage.getItem("users");
+      if (usersArray) {
+        usersArray = JSON.parse(usersArray);
+      } else {
+        usersArray = [];
+      }
+
+      // Check if email already exists
+      for (let i = 0; i < usersArray.length; i++) {
+        if (userEmail === usersArray[i].userEmail) {
+          alert("Email already in use.");
+          return;
+        }
+      }
+
+      // Create new user
+      const userObj = {
+        userName: userName,
+        userEmail: userEmail,
+        userPass: userPass
+      };
+
+      usersArray.push(userObj);
+      localStorage.setItem("users", JSON.stringify(usersArray));
+
+      alert("Signup successful!");
+      window.location.href = "login.html"; // Redirect to login page
+    }
+  </script>
+
+</body>
+</html>

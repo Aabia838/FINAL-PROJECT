@@ -1,6 +1,6 @@
 // DOM element references
 var userName = document.getElementById("userName");
-var userEmail = document.getElementById("email"); // Fixed typo from 'userEamil' to 'userEmail'
+var userEmail = document.getElementById("email"); 
 var userPass = document.getElementById("password");
 var loginEmail = document.getElementById("loginEmail");
 var loginPassword = document.getElementById("loginPassword");
@@ -21,11 +21,25 @@ function signupFunc() {
       return; // Exit function if email exists
     }
   }
+
   if (!userEmail.value || !userPass.value || !userName.value) {
     alert("All fields must be filled");
     return;
   }
-  
+
+  // Basic email validation
+  var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  if (!emailPattern.test(userEmail.value)) {
+    alert("Please enter a valid email");
+    return;
+  }
+
+  // Basic password validation
+  if (userPass.value.length < 6) {
+    alert("Password must be at least 6 characters long");
+    return;
+  }
+
   // Create new user object
   const userObj = {
     userName: userName.value,
@@ -45,7 +59,6 @@ function signupFunc() {
   alert("Signed up successfully");
 }
 
-// Login function
 function loginFunc() {
   let usersArray = JSON.parse(localStorage.getItem("users"));
   if (!usersArray) {
@@ -61,9 +74,13 @@ function loginFunc() {
     ) {
       flag = true;
       alert("Logged in successfully");
-      // Optionally, redirect to the home page or store login state
-      // Example: window.location.href = "home.html";
-      break; // Exit the loop after successful login
+      
+      // Store logged-in state in localStorage
+      localStorage.setItem("loggedIn", true);
+      
+      // Redirect to the dashboard page
+      window.location.href = "dashboard.html"; // Assuming your dashboard page is called 'dashboard.html'
+      break;
     }
   }
 
@@ -72,3 +89,11 @@ function loginFunc() {
   }
 }
 
+
+// Logout function
+function logoutFunc() {
+  localStorage.removeItem("loggedIn"); // Clear logged-in state
+  alert("Logged out successfully");
+  // Redirect to the login page
+  // Example: window.location.href = "login.html";
+}
